@@ -1,2 +1,2 @@
-# ROS-Navigation-stack-in-V-REP
-This involves implementation of ROS navigaiton stack on a differential drive robot in V-REP simulator
+# Pocker_bot_description
+Run launch file `urdf_rviz.launch` to visualize the urdf model in rviz
