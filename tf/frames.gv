@@ -1,0 +1,7 @@
+digraph G {
+"base_link" -> "link_right_wheel"[label="Broadcaster: /robot_state_publisher\nAverage rate: 10.205 Hz\nMost recent transform: 1559499080.832 ( 0.037 sec old)\nBuffer length: 4.900 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1559499080.869"[ shape=plaintext ] ;
+ }->"base_link";
+}
