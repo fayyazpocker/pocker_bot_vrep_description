@@ -1,8 +1,9 @@
 <?xml version="1.0" ?>
 
+
 <robot>
 <!-- macro for wheels -->
-	<macro name="link_wheel" params="name thickness radius origin_xyz visual_origin_rpy mesh_filename">
+	<macro name="sensor" params="name thickness radius origin_xyz visual_origin_rpy mesh_filename">
         <link name="${name}">
             <inertial>
               <mass value="0.2"/>
@@ -19,7 +20,7 @@
               <origin rpy="${visual_origin_rpy}" xyz="${origin_xyz}"/>
               <geometry>
                 <!-- <cylinder length="${thickness}" radius="${radius}"/> -->
-                <mesh filename="package://pocker_bot_vrep_description/urdf/meshes/${mesh_filename}" scale="0.6 1 1"/>
+                <mesh filename="package://pocker_bot_vrep_description/urdf/meshes/${mesh_filename}" scale="0.7 0.7 0.55"/>
               </geometry>
             </visual>
         </link>
@@ -27,9 +28,9 @@
 
     <!-- macro for joints -->
 
-    <macro name="joint_wheel" params="name parent child origin_xyz">
-      <joint name="${name}" type="continuous">
-        <origin rpy="-1.5707 0 0" xyz="${origin_xyz}"/>
+    <macro name="sensor_joint" params="name parent child origin_xyz">
+      <joint name="${name}" type="fixed">
+        <origin rpy="0 0 0" xyz="${origin_xyz}"/>
         <child link="${child}"/>
         <parent link="${parent}"/>
         <axis rpy="0 0 0" xyz="0 0 1"/>
@@ -39,5 +40,4 @@
     </macro>
 
 	<!-- <macro nam="joint_wheel"> -->
-
 </robot>

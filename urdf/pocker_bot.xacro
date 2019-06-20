@@ -2,14 +2,16 @@
 
 
   <!-- Chasis defined here -->
- <robot name="pocker_bot" xmlns:xacro="http://www.ros.org/wiki/xacro">
- <xacro:include filename="$(find pocker_bot_description)/urdf/materials.xacro" />
- <xacro:include filename="$(find pocker_bot_description)/urdf/wheel_macros.xacro" />
+ <robot name="pocker_bot_vrep" xmlns:xacro="http://www.ros.org/wiki/xacro">
+ <xacro:include filename="$(find pocker_bot_vrep_description)/urdf/materials.xacro" />
+ <xacro:include filename="$(find pocker_bot_vrep_description)/urdf/wheel_macros.xacro" />
+ <xacro:include filename="$(find pocker_bot_vrep_description)/urdf/sensor_macros.xacro" />
 
 <!-- Namespaces of links -->
   <xacro:property name="base_name" value="base_link" />
   <xacro:property name="left_wheel" value="left_wheel_link" />
   <xacro:property name="right_wheel" value="right_wheel_link" />
+  <xacro:property name="laser_sensor" value="laser_sensor" />
 
 <!-- Configuration of the base of the robot-->
  <xacro:property name="bot_height" value="0.054024" />
@@ -19,6 +21,10 @@
  <!-- Configuration of wheel -->
  <xacro:property name="wheel_radius" value="${(bot_height/2)+(caster_radius)}" />
  <xacro:property name="wheel_thickness" value="0.012" />
+  <!-- Configuration of sensor -->
+ <xacro:property name="sensor_thickness" value="0.035" />
+ <xacro:property name="sensor_radius" value="0.025" />
+
 
  	<link name="${base_name}">
     <inertial>
@@ -35,7 +41,7 @@
       <origin rpy="1.57 0 1.57" xyz="0 0 ${caster_radius}"/>
       <geometry>
         <!-- <cylinder length="0.054024" radius="0.08987"/> -->
-        <mesh filename="package://pocker_bot_description/urdf/meshes/bot_base.stl" scale="0.01 0.01 0.01"/>
+        <mesh filename="package://pocker_bot_vrep_description/urdf/meshes/bot_base.stl" scale="0.01 0.01 0.01"/>
       </geometry>
       <material name="light_yellow"/>
       <!-- <xacro:material name="Orange"/> -->
@@ -63,12 +69,12 @@
       <origin rpy=" 0 0 1.57" xyz="${(3/4)*bot_base_radius} 0.0057 ${-0.016+caster_radius}"/>
       <geometry>
         <!-- <sphere radius="0.05"/> -->
-        <mesh filename="package://pocker_bot_description/urdf/meshes/castor_wheel.stl" scale="0.00015 0.00015 0.00015"/>
+        <mesh filename="package://pocker_bot_vrep_description/urdf/meshes/castor_wheel.stl" scale="0.00015 0.00015 0.00015"/>
       </geometry>
     </visual>
 
     <!-- Caster front -->
-    <collision name="caster_front_collision">
+    <collision name="caster_back_collision">
       <origin rpy=" 0 0 0" xyz="${(-3/4)*bot_base_radius} 0 ${caster_radius}"/>
       <geometry>
         <sphere radius="${caster_radius}"/>
@@ -84,23 +90,27 @@
         </friction>
       </surface>
     </collision>
-    <visual name="caster_front_visual">
+    <visual name="caster_back_visual">
       <origin rpy=" 0 0 -1.57" xyz="${(-3/4)*bot_base_radius} -0.0057 ${-0.016+caster_radius}"/>
       <geometry>
         <!-- <sphere radius="0.05"/> -->
-        <mesh filename="package://pocker_bot_description/urdf/meshes/castor_wheel.stl" scale="0.00015 0.00015 0.00015"/>
+        <mesh filename="package://pocker_bot_vrep_description/urdf/meshes/castor_wheel.stl" scale="0.00015 0.00015 0.00015"/>
       </geometry>
     </visual>
   </link>
 
 <!-- Left wheel and joint -->
-	<xacro:link_wheel name="${left_wheel}" thickness="${wheel_thickness}" radius="${wheel_radius}" origin_xyz="0 0 0" visual_origin_rpy="0 0 1.57" mesh_filename="wheel.dae"/>
+	<xacro:link_wheel name="${left_wheel}" thickness="${wheel_thickness}" radius="${wheel_radius}" origin_xyz="0 0 0" visual_origin_rpy="1.57 -1.57 0" mesh_filename="wheel.dae"/>
 	<xacro:joint_wheel name="joint_${left_wheel}" parent="${base_name}" child="${left_wheel}" origin_xyz="0 ${bot_base_radius+0.013} ${(bot_height/2)+caster_radius}" />
 
 
 <!-- Right wheel and joint -->
-  <xacro:link_wheel name="${right_wheel}" thickness="${wheel_thickness}" radius="${wheel_radius}" origin_xyz="0 0 0" mesh_filename="wheel.dae" visual_origin_rpy="0 0 -1.57"/>
+  <xacro:link_wheel name="${right_wheel}" thickness="${wheel_thickness}" radius="${wheel_radius}" origin_xyz="0 0 0" mesh_filename="wheel.dae" visual_origin_rpy="1.57 1.57 0"/>
   <xacro:joint_wheel name="joint_${right_wheel}" parent="${base_name}" child="${right_wheel}" origin_xyz="0 ${-bot_base_radius-0.013} ${(bot_height/2)+caster_radius}" />
+
+  <!-- Laser sensor joint -->
+  <xacro:sensor name="${laser_sensor}" thickness="${sensor_thickness}" radius="${sensor_radius}" origin_xyz="0 0 ${-sensor_thickness/2}" mesh_filename="hokuyo.dae" visual_origin_rpy=" 0 0 ${-sensor_thickness/2}"/>
+  <xacro:sensor_joint name="sensor_joint_${laser_sensor}" parent="${base_name}" child="${laser_sensor}" origin_xyz="${(3/4)*bot_base_radius} 0 ${bot_height+caster_radius+(sensor_thickness)}" />
  
 
 </robot>
