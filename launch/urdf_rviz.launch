@@ -1,12 +1,21 @@
 <?xml version="1.0"?>
 <launch>
 
+  <param name ="/use_sim_time" value="false"/>
+
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pocker_bot_vrep_description)/urdf/pocker_bot.xacro'" />
 	
+  <param name="wheelbase_m" value="0.206"/>
+  <param name="wheel_diameter" value="0.087014"/>
+
+  <param name="base_link" value="base_link"/>
+  <param name="odom_frame" value="odom"/>
+  <param name="laser_frame" value="laser_sensor"/>
+  <param name="base_link" value="base_link"/>
   <!-- send fake joint values -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+ <!--  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="True"/>
-  </node>
+  </node> -->
 
   <!-- Combine joint values -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
