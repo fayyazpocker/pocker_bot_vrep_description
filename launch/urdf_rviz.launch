@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
 
-  <param name ="/use_sim_time" value="false"/>
+  <param name ="/use_sim_time" value="false"/> <!-- unlike gazebo vrep do not publish clock..hence set it as false -->
 
   <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find pocker_bot_vrep_description)/urdf/pocker_bot.xacro'" />
 
