@@ -36,7 +36,7 @@
   <node name="cartographer_node" pkg="cartographer_ros"
     type="cartographer_node" args="
         -configuration_directory $(find pocker_bot_vrep_description)/configuration_files
-        -configuration_basename pocker_cartographer.lua"
+        -configuration_basename new_pocker_cartographer.lua"
     output="screen">
   </node>
 
