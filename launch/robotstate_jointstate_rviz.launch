@@ -32,16 +32,7 @@
 
   <node pkg="pocker_bot_vrep_description" type="joint_state_publisher" name="joint_state_publisher" if="$(arg joint_state_publisher_flag)"/>
 
-
-  <node name="cartographer_node" pkg="cartographer_ros"
-    type="cartographer_node" args="
-        -configuration_directory $(find pocker_bot_vrep_description)/configuration_files
-        -configuration_basename new_pocker_cartographer.lua"
-    output="screen">
-  </node>
-
-
   <!-- Show in Rviz   -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pocker_bot_vrep_description)/rviz/urdf_check.rviz" if="$(arg rviz_flag)"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find pocker_bot_vrep_description)/rviz/visualize.rviz" if="$(arg rviz_flag)"/>
 
 </launch>
